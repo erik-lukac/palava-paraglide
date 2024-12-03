@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      context: .  # The directory containing the Dockerfile
+      dockerfile: dockerfile  # Specify the Dockerfile name if it's different
+    image: python:slim  # Use the python:slim image
+    container_name: python_slim  # Name your container
+    volumes:
+      - .:/app  # Mount the current directory to /app in the container
+    working_dir: /app  # Set the working directory inside the container
+    command: python app.py  # Command to run your Python script
+    environment:
+      - PYTHONUNBUFFERED=1  # Optional: Ensures output is not buffered
+    ports:
+      - "5001:5001"  # Map port 5000 on the host to port 5000 in the container (if needed)
