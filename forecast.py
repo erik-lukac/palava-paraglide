@@ -1,25 +1,25 @@
 import requests
 import datetime
 import json
+from typing import Optional, Dict, Any
 
-def get_current_weather():
-    # Coordinates and height for the specific location
-    latitude = 48.86902567024753
-    longitude = 16.65037094992182
-    height = 462.0  # Height in meters
+# Constants
+LATITUDE: float = 48.86902567024753
+LONGITUDE: float = 16.65037094992182
+HEIGHT: float = 462.0
+API_URL: str = 'https://api.open-meteo.com/v1/forecast'
 
-    # Define the API endpoint and parameters
-    url = 'https://api.open-meteo.com/v1/forecast'
-    params = {
-        'latitude': latitude,
-        'longitude': longitude,
+def get_current_weather() -> Optional[str]:
+    params: Dict[str, Any] = {
+        'latitude': LATITUDE,
+        'longitude': LONGITUDE,
         'hourly': 'temperature_2m,relativehumidity_2m,windspeed_10m,winddirection_10m',
         'timezone': 'GMT'
     }
 
     try:
         # Send the GET request
-        response = requests.get(url, params=params)
+        response = requests.get(API_URL, params=params)
         response.raise_for_status()  # Raise an error for bad responses
 
         # Parse the JSON response
@@ -50,7 +50,7 @@ def get_current_weather():
             'humidity': humidity,
             'windspeed': windspeed,
             'winddirection': winddirection,
-            'height': height  # Include height in the output
+            'height': HEIGHT  # Include height in the output
         }
 
         # Return the weather data as a JSON string
